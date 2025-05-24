@@ -18,3 +18,8 @@ target
 
 out
 *.log
+
+.checkstyle
+.classpath
+.project
+.settings/*
