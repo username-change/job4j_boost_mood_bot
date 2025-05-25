@@ -1,8 +1,11 @@
 package ru.job4j.content;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 
+@Component
 public class RecommendationEngine {
 	
     @PostConstruct

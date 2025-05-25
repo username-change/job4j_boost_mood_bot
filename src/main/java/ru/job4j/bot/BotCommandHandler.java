@@ -1,9 +1,12 @@
 package ru.job4j.bot;
 
+import org.springframework.stereotype.Component;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import ru.job4j.content.Content;
 
+@Component
 public class BotCommandHandler {
 	void receive(Content content) {
 		System.out.println(content);
