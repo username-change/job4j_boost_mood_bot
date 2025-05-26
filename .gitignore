@@ -19,6 +19,8 @@ target
 out
 *.log
 logs
+config/*
+dev/*
 
 .checkstyle
 .classpath
