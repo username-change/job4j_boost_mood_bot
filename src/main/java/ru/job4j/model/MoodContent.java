@@ -54,15 +54,16 @@ public class MoodContent {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		MoodContent other = (MoodContent) obj;
 		return Objects.equals(id, other.id) && Objects.equals(mood, other.mood) && Objects.equals(text, other.text);
 	}
-	
-	
 }

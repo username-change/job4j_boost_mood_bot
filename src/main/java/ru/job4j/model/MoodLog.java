@@ -66,15 +66,17 @@ public class MoodLog {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		MoodLog other = (MoodLog) obj;
 		return createdAt == other.createdAt && Objects.equals(id, other.id) && Objects.equals(mood, other.mood)
 				&& Objects.equals(user, other.user);
 	}
-	
 }
