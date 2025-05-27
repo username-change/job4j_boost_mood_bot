@@ -1,20 +1,13 @@
 package ru.job4j.repository;
 
-import org.springframework.stereotype.Component;
+import java.util.List;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-@Component
-public class AchievementRepository {
-	
-    @PostConstruct
-    public void init() {
-        System.out.println("Bean is going through init.");
-    }
+import ru.job4j.model.Achievement;
 
-    @PreDestroy
-    public void destroy() {
-        System.out.println("Bean will be destroyed now.");
-    }
+@Repository
+public interface AchievementRepository extends CrudRepository<Achievement, Long> {
+	List<Achievement> findAll();
 }
