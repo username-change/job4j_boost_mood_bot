@@ -2,15 +2,12 @@ package ru.job4j.repository;
 
 import java.util.List;
 
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import ru.job4j.model.User;
 
 @Repository
-public interface UserRepository {
+public interface UserRepository extends CrudRepository<User, Long> {
 	List<User> findAll();
-	
-    User findByClientId(Long clientId);
-    
-    void save(User user);
 }
