@@ -12,14 +12,23 @@ import jakarta.persistence.Table;
 @Table(name = "mb_award")
 public class Award {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String title;
+	private String title;
 
-    private String description;
+	private String description;
 
-    private int days;
+	private int days;
+
+	public Award() {
+	}
+
+	public Award(String title, String description, int days) {
+		this.title = title;
+		this.description = description;
+		this.days = days;
+	}
 
 	public Long getId() {
 		return id;
@@ -55,7 +64,7 @@ public class Award {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(days, description, id, title);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -70,7 +79,6 @@ public class Award {
 			return false;
 		}
 		Award other = (Award) obj;
-		return days == other.days && Objects.equals(description, other.description) && Objects.equals(id, other.id)
-				&& Objects.equals(title, other.title);
+		return Objects.equals(id, other.id);
 	}
 }

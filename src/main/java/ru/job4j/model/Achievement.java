@@ -27,6 +27,15 @@ public class Achievement {
 	@JoinColumn(name = "award_id")
 	private Award award;
 
+	public Achievement() {
+	}
+	
+	public Achievement(long createAt, User user, Award award) {
+		this.createAt = createAt;
+		this.user = user;
+		this.award = award;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -61,7 +70,7 @@ public class Achievement {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(award, createAt, id, user);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -76,7 +85,6 @@ public class Achievement {
 			return false;
 		}
 		Achievement other = (Achievement) obj;
-		return Objects.equals(award, other.award) && createAt == other.createAt && Objects.equals(id, other.id)
-				&& Objects.equals(user, other.user);
+		return Objects.equals(id, other.id);
 	}
 }

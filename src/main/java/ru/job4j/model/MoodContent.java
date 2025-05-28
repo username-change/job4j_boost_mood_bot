@@ -23,6 +23,14 @@ public class MoodContent {
 
 	private String text;
 
+	public MoodContent(Mood mood, String text) {
+		this.mood = mood;
+		this.text = text;
+	}
+	
+	public MoodContent() {
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -49,7 +57,7 @@ public class MoodContent {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, mood, text);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -64,6 +72,6 @@ public class MoodContent {
 			return false;
 		}
 		MoodContent other = (MoodContent) obj;
-		return Objects.equals(id, other.id) && Objects.equals(mood, other.mood) && Objects.equals(text, other.text);
+		return Objects.equals(id, other.id);
 	}
 }

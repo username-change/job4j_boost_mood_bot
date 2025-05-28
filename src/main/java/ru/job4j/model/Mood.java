@@ -12,13 +12,21 @@ import jakarta.persistence.Table;
 @Table(name = "mb_mood")
 public class Mood {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String text;
+	private String text;
 
-    private boolean good;
+	private boolean good;
 
+	public Mood() {
+	}
+
+	public Mood(String text, boolean good) {
+		this.text = text;
+		this.good = good;
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -45,7 +53,7 @@ public class Mood {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(good, id, text);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -60,6 +68,6 @@ public class Mood {
 			return false;
 		}
 		Mood other = (Mood) obj;
-		return good == other.good && Objects.equals(id, other.id) && Objects.equals(text, other.text);
+		return good == Objects.equals(id, other.id);
 	}
 }
