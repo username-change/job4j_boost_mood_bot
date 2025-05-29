@@ -1,8 +1,5 @@
 package ru.job4j.service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -16,16 +13,18 @@ import ru.job4j.repository.UserRepository;
 @Service
 public class TgRemoteService extends TelegramLongPollingBot {
 
+	private final TgUI tgUI;
 	private final String botName;
 	private final String botToken;
     private final UserRepository userRepository;
 
 	public TgRemoteService(@Value("${telegram.bot.name}") String botName,
 							@Value("${telegram.bot.token}") String botToken,
-							UserRepository userRepository) {
+							UserRepository userRepository, TgUI tgUI) {
 		this.botName = botName;
 		this.botToken = botToken;
 		this.userRepository = userRepository;
+		this.tgUI = tgUI;
 	}
 
 	@Override
@@ -64,6 +63,8 @@ public class TgRemoteService extends TelegramLongPollingBot {
 	public SendMessage sendButtons(long chatId) {
 		SendMessage message = new SendMessage();
 		message.setChatId(chatId);
+		message.setText("Выберите настроение");
+		message.setReplyMarkup(tgUI.buildButtons());
 		return message;
 	}
 }
