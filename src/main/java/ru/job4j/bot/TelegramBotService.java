@@ -15,16 +15,15 @@ public class TelegramBotService {
 	}
 
 	public void receive(Content content) {
-		handler.receive(content);
 	}
-	
-    @PostConstruct
-    public void init() {
-        System.out.println("Bean is going through init.");
-    }
 
-    @PreDestroy
-    public void destroy() {
-        System.out.println("Bean will be destroyed now.");
-    }
+	@PostConstruct
+	public void init() {
+		System.out.println("Bean is going through init.");
+	}
+
+	@PreDestroy
+	public void destroy() {
+		System.out.println("Bean will be destroyed now.");
+	}
 }
