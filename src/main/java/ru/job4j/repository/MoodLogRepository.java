@@ -3,9 +3,11 @@ package ru.job4j.repository;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import ru.job4j.model.Mood;
+import ru.job4j.model.MoodLog;
 
-public interface MoodLogRepository extends CrudRepository<Mood, Long> {
-	List<Mood> findAll();
+@Repository
+public interface MoodLogRepository extends CrudRepository<MoodLog, Long> {
+	List<MoodLog> findAll();
 }

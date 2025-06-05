@@ -1,18 +1,20 @@
 package ru.job4j.service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.stereotype.Component;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import ru.job4j.content.Content;
 import ru.job4j.content.RecommendationEngine;
+import ru.job4j.model.Award;
+import ru.job4j.model.Mood;
 import ru.job4j.model.MoodLog;
 import ru.job4j.model.User;
 import ru.job4j.repository.AchievementRepository;
@@ -39,18 +41,45 @@ public class MoodService {
 		this.achievementRepository = achievementRepository;
 	}
 
-	public Content chooseMood(User user, Long moodId) {
-		return recommendationEngine.recommendFor(user.getChatId(), moodId);
-	}
+    public Content chooseMood(User user, Long moodId) {
+    	Mood mood = new Mood();
+    	mood.setId(moodId);
+        long currentTimeFormat = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+        
+        MoodLog moodLog = new MoodLog();
+        moodLog.setUser(user);
+        moodLog.setMood(mood);
+        moodLog.setCreatedAt(currentTimeFormat);
+        moodLogRepository.save(moodLog);
+        return recommendationEngine.recommendFor(user.getChatId(), moodId);
+    }
 
 	public Optional<Content> weekMoodLogCommand(long chatId, Long clientId) {
-		var content = new Content(chatId);
-		return Optional.of(content);
+	    long weekAgo = LocalDateTime.now().minusWeeks(1).toEpochSecond(ZoneOffset.UTC);
+	    
+	    List<MoodLog> moodLogs = moodLogRepository.findAll().stream()
+                .filter(moodLog -> moodLog.getUser().getClientId() == clientId)
+	            .filter(moodLog -> moodLog.getCreatedAt() >= weekAgo)
+	            .toList();
+
+	    var content = new Content(chatId);
+	    content.setText(formatMoodLogs(moodLogs, "Ваши настроения за последнюю неделю"));
+	    return Optional.of(content);
 	}
 
 	public Optional<Content> monthMoodLogCommand(long chatId, Long clientId) {
-		var content = new Content(chatId);
-		return Optional.of(content);
+		LocalDateTime currentTime = LocalDateTime.now();
+	    LocalDateTime mounthAgo = currentTime.minusMonths(1);
+	    long monthAgoFormat = mounthAgo.toEpochSecond(ZoneOffset.UTC);
+	    
+	    List<MoodLog> moodLogs = moodLogRepository.findAll().stream()
+                .filter(moodLog -> moodLog.getUser().getClientId() == clientId)
+                .filter(moodLog -> moodLog.getCreatedAt() >= monthAgoFormat)
+                .toList();
+
+        var content = new Content(chatId);
+        content.setText(formatMoodLogs(moodLogs, "Ваши настроения за последний месяц"));
+        return Optional.of(content);
 	}
 
 	private String formatMoodLogs(List<MoodLog> logs, String title) {
@@ -67,6 +96,12 @@ public class MoodService {
 
 	public Optional<Content> awards(long chatId, Long clientId) {
 		var content = new Content(chatId);
-		return Optional.of(content);
+		List<Award> awards = achievementRepository.findAll().stream()
+				.filter(achievement -> achievement.getUser().getClientId() == clientId)
+				.map(achievement -> achievement.getAward())
+				.toList();
+		
+		content.setText("Ваши достиажения: " + awards);
+	    return Optional.of(content);
 	}
 }
