@@ -84,7 +84,7 @@ public class MoodService {
 
 	private String formatMoodLogs(List<MoodLog> logs, String title) {
 		if (logs.isEmpty()) {
-			return title + ":\nNo mood logs found.";
+			return title + ":\nНет записей о настроении";
 		}
 		var sb = new StringBuilder(title + ":\n");
 		logs.forEach(log -> {
@@ -101,7 +101,13 @@ public class MoodService {
 				.map(achievement -> achievement.getAward())
 				.toList();
 		
-		content.setText("Ваши достиажения: " + awards);
+	    if (awards.isEmpty()) {
+	        content.setText("Ваши достижения:\nНет записей о достижениях");
+	    } else {
+	        var sb = new StringBuilder("Ваши достижения:\n");
+	        awards.forEach(award -> sb.append(award.getTitle()).append(": ").append(award.getDescription()).append("\n"));	        
+	        content.setText(sb.toString());
+	    }
 	    return Optional.of(content);
 	}
 }
