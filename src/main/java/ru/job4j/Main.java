@@ -14,13 +14,13 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
+import ru.job4j.bot.TelegramBotService;
 import ru.job4j.model.Award;
 import ru.job4j.model.Mood;
 import ru.job4j.model.MoodContent;
 import ru.job4j.repository.AwardRepository;
 import ru.job4j.repository.MoodContentRepository;
 import ru.job4j.repository.MoodRepository;
-import ru.job4j.service.TgRemoteService;
 
 @EnableAspectJAutoProxy
 @EnableScheduling
@@ -33,7 +33,7 @@ public class Main {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
-			var bot = ctx.getBean(TgRemoteService.class);
+			var bot = ctx.getBean(TelegramBotService.class);
 			var botsApi = new TelegramBotsApi(DefaultBotSession.class);
 			try {
 				botsApi.registerBot(bot);
